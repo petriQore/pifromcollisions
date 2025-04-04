@@ -1,9 +1,7 @@
 click with mouse anywhere to enable sounds(if on web)
 
-This program approximates PI up to 3 digits(10000:1 mass ratio)
+This program approximates PI up to n digits(choose from the menu)
 
-Currently doesn't work for higher ratios(the square clips through the edge)
+its very slow though
 
 inspired by that one 3blue1brown video
-
-try different ratios using the buttons
