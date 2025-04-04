@@ -1,6 +1,8 @@
 use macroquad::prelude::*;
 use macroquad::audio::Sound;
 use macroquad::audio;
+
+pub const INITIAL_X_VELOCITY: f32 = 300.0;
 pub struct MyRectangle {
     pub x: f32,
     pub y: f32, 
@@ -31,16 +33,22 @@ impl MyRectangle{
         }    
     }
 
-    pub fn slide(&mut self, floor: &MyRectangle, step: f32, collision_number: &mut i32, hit: &Sound){
+    pub fn slide(&mut self, other_square: &MyRectangle, floor: &MyRectangle, is_right_square: bool, step: f32, collision_number: &mut i32, hit: &Sound){
         // let mass = self.w * self.h;
 
         if self.y + self.h == floor.y{
             self.x += self.v_x * step;
-        }    
-        if self.x <= 0. {
+        } 
+
+        if self.x <= 0. && !is_right_square {
             self.v_x = -self.v_x;
             *collision_number += 1;
             audio::play_sound_once(hit);
+
+        }
+        
+        if self.x <= other_square.w && is_right_square {
+            self.x = other_square.w;
 
         }
     }    
@@ -71,7 +79,7 @@ pub fn collisions(left_square: &mut MyRectangle, right_square: &mut MyRectangle,
 pub fn reset(left_square: &mut MyRectangle, right_square: &mut MyRectangle, collision_number: &mut i32, mass: f32) {
     right_square.x = screen_width()/2.0;
     right_square.y = screen_height()/2.0;
-    right_square.v_x = -100.0;
+    right_square.v_x = -INITIAL_X_VELOCITY;
     right_square.mass = mass;
 
     left_square.x = screen_width()/4.0;
